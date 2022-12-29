@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifya731c6073bc64-staging-235650-authRole",
+      "UnauthRoleArn": "arn:aws:iam::138649058096:role/amplify-amplifya731c6073bc64-staging-235650-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::138649058096:role/amplify-amplifya731c6073bc64-staging-235650-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-amplifya731c6073bc64-staging-235650-deployment",
+      "UnauthRoleName": "amplify-amplifya731c6073bc64-staging-235650-unauthRole",
+      "StackName": "amplify-amplifya731c6073bc64-staging-235650",
+      "StackId": "arn:aws:cloudformation:us-west-2:138649058096:stack/amplify-amplifya731c6073bc64-staging-235650/4c2cd530-870b-11ed-af01-065bf885513d",
+      "AmplifyAppId": "d15cpjn1up97s0"
+    },
+    "categories": {
+      "api": {
+        "videooperatorsapp": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "videooperatorsapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2022-12-29T09:27:39.730Z"
+}
