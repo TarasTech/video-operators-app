@@ -48,11 +48,31 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Form = () => {
+  const operators = [
+    'Mark Chaban',
+    'Tony Bagniy',
+    'Fedor Torchilo',
+    'Phil Chmil',
+    'Max Gubenya',
+    'Oleg Nochvay',
+    'Mark Nesin',
+    'Ruslan Balaban',
+    'Nazar Kedrich',
+    'Vadym Prozapas' ,
+    'Viktor Izoita',
+    'Max Nakonechniy',
+    'Vasyl Sergiichuk',
+    'Fillip Ugnivyy',
+    'Sam Abramchuk',
+    'Pavel Yarema' ,
+    'Daniel Tishkov'
+  ]
   const classes = useStyles();
   const [person, setPerson] = React.useState('');
   const [position, setPosition] = React.useState('');
   const [time, setTime] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
+  const [viewingCheckins, setViewingCheckins] = React.useState(false);
   const [submissionTime, setSubmissionTime] = React.useState('');
 
   React.useEffect(() => {
@@ -110,7 +130,15 @@ const Form = () => {
     setPerson('');
     setPosition('');
     setSubmitted(false);
+    setViewingCheckins(false);
   };
+
+  const handleViewCheckins = () => {
+    setViewingCheckins(true);
+    setSubmitted(false);
+  };
+
+
 
   if (submitted) {
     return (
@@ -139,9 +167,9 @@ const Form = () => {
               required
               onChange={handlePersonChange}
             >
-              <MenuItem value="Person 1">Person 1</MenuItem>
-              <MenuItem value="Person 2">Person 2</MenuItem>
-              <MenuItem value="Person 3">Person 3</MenuItem>
+              {operators.map(operator => (
+                <MenuItem key={operator}>{operator}</MenuItem>
+              ))}
             </TextField>
           </div>
           <div className={classes.formPadding}>
@@ -170,6 +198,7 @@ const Form = () => {
           <Typography className={classes.timeAlignment} variant="h6">Submission Time: {time}</Typography>
         </form>
       </div>
+      <Button onClick={handleViewCheckins}>View Checkins</Button>
     </div>
   );
 }
