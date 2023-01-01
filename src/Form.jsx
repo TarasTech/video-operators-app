@@ -148,12 +148,13 @@ const Form = () => {
   const handleViewCheckins = () => {
     setViewingCheckins(true);
     setSubmitted(false);
+    getCheckins();
   };
 
   if (viewingCheckins) {
     return (
       <div>
-        <Button onClick={getCheckins}>Query Database</Button>
+        <Button onClick={getCheckins}>Re-Query Database</Button>
         <TableContainer className={classes.table} component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -174,7 +175,7 @@ const Form = () => {
                   <TableCell align="right">{checkin.lastname}</TableCell>
                   <TableCell align="right">{checkin.position}</TableCell>
                   <TableCell align="right">{checkin.date}</TableCell>
-                  <TableCell align="right">{checkin.time}</TableCell>
+                  <TableCell align="right">{checkin.time.split(":")[0] < 12 ? <>{checkin.time} AM</> : <>{checkin.time.split(":")[0] - 12}:{checkin.time.split(":")[1]} PM</>}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
