@@ -213,7 +213,7 @@ const Form = () => {
               onChange={handlePersonChange}
             >
               {operators.map(operator => (
-                <MenuItem key={operator}>{operator}</MenuItem>
+                <MenuItem value={operator}>{operator}</MenuItem>
               ))}
             </TextField>
           </div>
