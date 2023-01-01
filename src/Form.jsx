@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
   table: {
     maxWidth: "1000px",
   },
+  search: {
+    margin: "10px 0px 10px 0px !important",
+    minWidth: "1000px !important",
+  },
 }));
 
 
@@ -86,6 +90,8 @@ const Form = () => {
   const [viewingCheckins, setViewingCheckins] = React.useState(false);
   const [submissionTime, setSubmissionTime] = React.useState('');
   const [checkins, setCheckins] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [filteredRows, setFilteredRows] = React.useState(checkins);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -100,6 +106,7 @@ const Form = () => {
     });
     const checkins = response.data.listCheckins.items
     await setCheckins(checkins);
+    await setFilteredRows(checkins);
     console.log(checkins);
     return checkins;
   }
@@ -151,10 +158,33 @@ const Form = () => {
     getCheckins();
   };
 
+  const handleSearch = event => {
+    setSearchTerm(event.target.value);
+    const searchWords = event.target.value.split(' ');
+    setFilteredRows(
+      checkins.filter(checkin =>
+        searchWords.every(word =>
+          checkin.name.toLowerCase().includes(word.toLowerCase()) ||
+          checkin.lastname.toLowerCase().includes(word.toLowerCase()) ||
+          checkin.position.toLowerCase().includes(word.toLowerCase()) ||
+          checkin.date.toLowerCase().includes(word.toLowerCase())
+        )
+      )
+    );
+  };
+
   if (viewingCheckins) {
     return (
       <div>
         <Button onClick={getCheckins}>Re-Query Database</Button>
+        <br></br>
+        <TextField
+          className={classes.search}
+          label="Search"
+          onChange={handleSearch}
+          value={searchTerm}
+        />
+        <br></br>
         <TableContainer className={classes.table} component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -167,7 +197,7 @@ const Form = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {checkins.map(checkin => (
+              {filteredRows.map(checkin => (
                 <TableRow key={checkin.firstName}>
                   <TableCell component="th" scope="row">
                     {checkin.name}
