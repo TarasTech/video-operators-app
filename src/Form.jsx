@@ -4,10 +4,18 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import { API } from 'aws-amplify';
 import {
   createCheckin as createCheckinMutation,
 } from "./graphql/mutations";
+import { listCheckins } from "./graphql/queries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +51,10 @@ const useStyles = makeStyles((theme) => ({
   },
   timeAlignment: {
     textAlign: "center",
-  }
+  },
+  table: {
+    maxWidth: "1000px",
+  },
 }));
 
 
@@ -74,6 +85,7 @@ const Form = () => {
   const [submitted, setSubmitted] = React.useState(false);
   const [viewingCheckins, setViewingCheckins] = React.useState(false);
   const [submissionTime, setSubmissionTime] = React.useState('');
+  const [checkins, setCheckins] = React.useState([]);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -82,15 +94,15 @@ const Form = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // async function getPeople() {
-  //   const response = await API.graphql({
-  //     query: listPeople
-  //   });
-  //   const people = response.data.listPeople.items
-  //   await setPeople(people);
-  //   console.log(people);
-  //   return people;
-  // }
+  async function getCheckins() {
+    const response = await API.graphql({
+      query: listCheckins
+    });
+    const checkins = response.data.listCheckins.items
+    await setCheckins(checkins);
+    console.log(checkins);
+    return checkins;
+  }
 
   async function addCheckin(name, lastname, position, fulldate) {
     const offset = fulldate.getTimezoneOffset();
@@ -138,7 +150,40 @@ const Form = () => {
     setSubmitted(false);
   };
 
-
+  if (viewingCheckins) {
+    return (
+      <div>
+        <Button onClick={getCheckins}>Query Database</Button>
+        <TableContainer className={classes.table} component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>First Name</TableCell>
+                <TableCell align="right">Last Name</TableCell>
+                <TableCell align="right">Position</TableCell>
+                <TableCell align="right">Date</TableCell>
+                <TableCell align="right">Time</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {checkins.map(checkin => (
+                <TableRow key={checkin.firstName}>
+                  <TableCell component="th" scope="row">
+                    {checkin.name}
+                  </TableCell>
+                  <TableCell align="right">{checkin.lastname}</TableCell>
+                  <TableCell align="right">{checkin.position}</TableCell>
+                  <TableCell align="right">{checkin.date}</TableCell>
+                  <TableCell align="right">{checkin.time}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button onClick={handleGoBack}>Go back to form</Button>
+      </div>
+    );
+  }
 
   if (submitted) {
     return (
