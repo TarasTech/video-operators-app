@@ -1,129 +1,54 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createPerson = /* GraphQL */ `
-  mutation CreatePerson(
-    $input: CreatePersonInput!
-    $condition: ModelPersonConditionInput
+export const createCheckin = /* GraphQL */ `
+  mutation CreateCheckin(
+    $input: CreateCheckinInput!
+    $condition: ModelCheckinConditionInput
   ) {
-    createPerson(input: $input, condition: $condition) {
+    createCheckin(input: $input, condition: $condition) {
       id
       name
       lastname
-      checkins {
-        items {
-          id
-          position
-          date
-          time
-          createdAt
-          updatedAt
-          personCheckinsId
-        }
-        nextToken
-      }
+      position
+      time
+      date
       createdAt
       updatedAt
     }
   }
 `;
-export const updatePerson = /* GraphQL */ `
-  mutation UpdatePerson(
-    $input: UpdatePersonInput!
-    $condition: ModelPersonConditionInput
+export const updateCheckin = /* GraphQL */ `
+  mutation UpdateCheckin(
+    $input: UpdateCheckinInput!
+    $condition: ModelCheckinConditionInput
   ) {
-    updatePerson(input: $input, condition: $condition) {
+    updateCheckin(input: $input, condition: $condition) {
       id
       name
       lastname
-      checkins {
-        items {
-          id
-          position
-          date
-          time
-          createdAt
-          updatedAt
-          personCheckinsId
-        }
-        nextToken
-      }
+      position
+      time
+      date
       createdAt
       updatedAt
     }
   }
 `;
-export const deletePerson = /* GraphQL */ `
-  mutation DeletePerson(
-    $input: DeletePersonInput!
-    $condition: ModelPersonConditionInput
+export const deleteCheckin = /* GraphQL */ `
+  mutation DeleteCheckin(
+    $input: DeleteCheckinInput!
+    $condition: ModelCheckinConditionInput
   ) {
-    deletePerson(input: $input, condition: $condition) {
+    deleteCheckin(input: $input, condition: $condition) {
       id
       name
       lastname
-      checkins {
-        items {
-          id
-          position
-          date
-          time
-          createdAt
-          updatedAt
-          personCheckinsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createCheckins = /* GraphQL */ `
-  mutation CreateCheckins(
-    $input: CreateCheckinsInput!
-    $condition: ModelCheckinsConditionInput
-  ) {
-    createCheckins(input: $input, condition: $condition) {
-      id
       position
-      date
       time
+      date
       createdAt
       updatedAt
-      personCheckinsId
-    }
-  }
-`;
-export const updateCheckins = /* GraphQL */ `
-  mutation UpdateCheckins(
-    $input: UpdateCheckinsInput!
-    $condition: ModelCheckinsConditionInput
-  ) {
-    updateCheckins(input: $input, condition: $condition) {
-      id
-      position
-      date
-      time
-      createdAt
-      updatedAt
-      personCheckinsId
-    }
-  }
-`;
-export const deleteCheckins = /* GraphQL */ `
-  mutation DeleteCheckins(
-    $input: DeleteCheckinsInput!
-    $condition: ModelCheckinsConditionInput
-  ) {
-    deleteCheckins(input: $input, condition: $condition) {
-      id
-      position
-      date
-      time
-      createdAt
-      updatedAt
-      personCheckinsId
     }
   }
 `;

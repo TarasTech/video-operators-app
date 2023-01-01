@@ -1,14 +1,8 @@
-type Person @model @auth(rules: [{allow: public}]) {
+type Checkin @model @auth(rules: [{allow: public}, {allow: private, provider: iam}]) {
   id: ID!
   name: String!
   lastname: String!
-  checkins: [Checkins] @hasMany
-}
-
-type Checkins @model @auth(rules: [{allow: public}]) {
-  id: ID!
   position: String!
-  date: AWSDate!
   time: AWSTime!
+  date: AWSDate!
 }
- 

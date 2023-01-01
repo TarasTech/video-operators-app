@@ -4,7 +4,10 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
+import {
+  createCheckin as createCheckinMutation,
+} from "./graphql/mutations";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,34 +46,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ADD_CHECKIN_MUTATION = `
-  mutation AddCheckIn($personId: ID!, $position: String!, $date: AWSDate!, $time: AWSTime!) {
-    createCheckins(input: {
-      position: $position,
-      date: $date,
-      time: $time
-    }) {
-      id
-      position
-      date
-      time
-    }
-    updatePerson(input: {
-      id: $personId,
-      checkins: { connect: { id: createCheckins.id } }
-    }) {
-      id
-      name
-      lastname
-      checkins {
-        id
-        position
-        date
-        time
-      }
-    }
-  }
-`
 
 const Form = () => {
   const classes = useStyles();
@@ -87,6 +62,29 @@ const Form = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // async function getPeople() {
+  //   const response = await API.graphql({
+  //     query: listPeople
+  //   });
+  //   const people = response.data.listPeople.items
+  //   await setPeople(people);
+  //   console.log(people);
+  //   return people;
+  // }
+
+  async function addCheckin(name, lastname, position, fulldate) {
+    const time =  fulldate.toISOString().slice(11, 19);
+    const date =  fulldate.toISOString().slice(0, 10);
+    const input = {name, lastname, position, time, date}
+    console.log(input);
+    const response = await API.graphql({
+      query: createCheckinMutation,
+      variables: {input}
+    })
+    console.log(response);
+    // Do something with the updated person object
+  }
+
   const handlePersonChange = (event) => {
     setPerson(event.target.value);
   };
@@ -95,10 +93,15 @@ const Form = () => {
     setPosition(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setSubmissionTime(new Date().toLocaleString());
+    const date = new Date();
+    setSubmissionTime(new Date());
     setSubmitted(true);
+    const firstName = person.split(" ")[0];
+    const lastname = person.split(" ")[1];
+    addCheckin(firstName, lastname, position, date);
+    //console.log(firstName + ";" + lastname + ";" + position + ";" + date.toLocaleString());
   };
 
   const handleGoBack = () => {
@@ -113,7 +116,7 @@ const Form = () => {
         <p>Checked in successfully!</p>
         <p>Person: {person}</p>
         <p>Position: {position}</p>
-        <p>Submission Time: {submissionTime}</p>
+        <p>Submission Time: {submissionTime.toLocaleString()}</p>
         <Button onClick={handleGoBack}>Go back to form</Button>
       </div>
     );
