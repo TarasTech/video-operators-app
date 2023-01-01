@@ -73,8 +73,10 @@ const Form = () => {
   // }
 
   async function addCheckin(name, lastname, position, fulldate) {
-    const time =  fulldate.toISOString().slice(11, 19);
-    const date =  fulldate.toISOString().slice(0, 10);
+    const offset = fulldate.getTimezoneOffset();
+    const pstDate = new Date(fulldate.getTime() - offset * 60 * 1000);
+    const time =  pstDate.toISOString().slice(11, 19);
+    const date =  pstDate.toISOString().slice(0, 10);
     const input = {name, lastname, position, time, date}
     console.log(input);
     const response = await API.graphql({
