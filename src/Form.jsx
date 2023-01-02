@@ -197,7 +197,11 @@ const Form = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredRows.map(checkin => (
+              {filteredRows.sort((b, a) => {
+                const dateA = new Date(`${a.date} ${a.time}`);
+                const dateB = new Date(`${b.date} ${b.time}`);
+                return dateA - dateB;
+              }).map(checkin => (
                 <TableRow key={checkin.firstName}>
                   <TableCell component="th" scope="row">
                     {checkin.name}
@@ -205,7 +209,7 @@ const Form = () => {
                   <TableCell align="right">{checkin.lastname}</TableCell>
                   <TableCell align="right">{checkin.position}</TableCell>
                   <TableCell align="right">{checkin.date}</TableCell>
-                  <TableCell align="right">{checkin.time.split(":")[0] < 12 ? <>{checkin.time} AM</> : <>{checkin.time.split(":")[0] - 12}:{checkin.time.split(":")[1]} PM</>}</TableCell>
+                  <TableCell align="right">{checkin.time.split(":")[0] < 12 ? <>{checkin.time.split(":")[0].replace("0", "")}:{checkin.time.split(":")[1]} AM</> : <>{checkin.time.split(":")[0] - 12}:{checkin.time.split(":")[1]} PM</>}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
