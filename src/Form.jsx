@@ -87,6 +87,7 @@ const Form = () => {
   const [position, setPosition] = React.useState('');
   const [time, setTime] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
+  const [errored, setErrored] = React.useState(false);
   const [viewingCheckins, setViewingCheckins] = React.useState(false);
   const [submissionTime, setSubmissionTime] = React.useState('');
   const [checkins, setCheckins] = React.useState([]);
@@ -112,6 +113,7 @@ const Form = () => {
   }
 
   async function addCheckin(name, lastname, position, fulldate) {
+    try {
     const offset = fulldate.getTimezoneOffset();
     const pstDate = new Date(fulldate.getTime() - offset * 60 * 1000);
     const time =  pstDate.toISOString().slice(11, 19);
@@ -124,6 +126,9 @@ const Form = () => {
     })
     console.log(response);
     // Do something with the updated person object
+    } catch (e) {
+      setErrored(true);
+    }
   }
 
   const handlePersonChange = (event) => {
@@ -216,6 +221,15 @@ const Form = () => {
           </Table>
         </TableContainer>
         <Button onClick={handleGoBack}>Go back to form</Button>
+      </div>
+    );
+  }
+
+  if (errored) {
+    return (
+      <div>
+        <h1>Check in ERROR!!!!!</h1>
+        <p>Please let Taras Lytvynchuk or Pavel Yarema know ASAP!!!</p>
       </div>
     );
   }
